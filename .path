@@ -1,0 +1,12 @@
+
+# prefer homebrew paths in case it exists:
+if which -s brew ; then
+    PATH="$(brew --prefix)/bin:$(brew --prefix)/sbin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+export PATH;
