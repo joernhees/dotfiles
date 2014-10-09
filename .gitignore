@@ -1,5 +1,6 @@
 # Compiled Python files
 *.pyc
+*.pyo
 
 # Folder view configuration files
 .DS_Store
@@ -12,3 +13,10 @@ Thumbs.db
 # Files that might appear on external disks
 .Spotlight-V100
 .Trashes
+
+# ignore kate backups
+*~
+
+# ignore some very specific tex tmp files
+*.synctex.gz
+
