@@ -3,8 +3,10 @@ export EDITOR="vim";
 
 # Larger bash history (allow 32³ entries; default is 500)
 export HISTSIZE=32768;
-export HISTFILESIZE=$HISTSIZE;
-export HISTCONTROL=ignoredups;
+export HISTFILESIZE=262144;
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+export HISTCONTROL=ignoreboth;
 # Make some commands not show up in history
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help";
 
@@ -13,7 +15,12 @@ export LANG="en_US.UTF-8";
 export LC_ALL="en_US.UTF-8";
 
 # Highlight section titles in manual pages
-export LESS_TERMCAP_md="${yellow}";
+export LESS_TERMCAP_md=$'\E[01;33m'  # begin bold
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+
+# make less quit if fits on one page -F and not enter termcap -X (no init and no cleanup afterwards)
+# causes problems with git diff colors...
+#export LESS="";
 
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X";
