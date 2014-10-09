@@ -1,120 +1,88 @@
-# Shell prompt based on the Solarized Dark theme.
-# Screenshot: http://i.imgur.com/EkEtphC.png
-# Heavily inspired by @necolas’s prompt: https://github.com/necolas/dotfiles
-# iTerm → Profiles → Text → use 13pt Monaco with 1.1 vertical spacing.
 
-if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-	export TERM='gnome-256color';
-elif infocmp xterm-256color >/dev/null 2>&1; then
-	export TERM='xterm-256color';
-fi;
+# if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+# 	export TERM='gnome-256color';
+# elif infocmp xterm-256color >/dev/null 2>&1; then
+# 	export TERM='xterm-256color';
+# fi;
 
-prompt_git() {
-	local s='';
-	local branchName='';
 
-	# Check if the current directory is in a Git repository.
-	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+	debian_chroot=$(cat /etc/debian_chroot)
+fi
 
-		# check if the current directory is in .git before running git checks
-		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+	xterm*) color_prompt=yes;;
+esac
 
-			# Ensure the index is up to date.
-			git update-index --really-refresh -q &>/dev/null;
 
-			# Check for uncommitted changes in the index.
-			if ! $(git diff --quiet --ignore-submodules --cached); then
-				s+='+';
-			fi;
+if [ "$color_prompt" = yes ]; then
+	# \h hostname
+	# \u user
+	# \w working dir (home == ~)
+	# \$ a $ if UID == 0 else #
+	# \A current 24-time: HH:MM
+	# \\ a \
+	# \[ begin, \] end of non-printing (control chars)
+	#
+	# colors: have to be surrounded by: '\[\033[' and 'm\]'
+	# (without the ''. These literally are the left and right bracket!)
+	#  color codes are as follows, preceeded by a '0;' (dark) (default) or a '1;' (light)
+	#  FG and BG NULL: 00 resets
+	#  FG: 30 + ... 0: black, 1: red, 2: green, 3: yellow, 4: blue, 5: violet, 6: cyan, 7: white
+	#  BG: 40 + ... same
+	reset='\[\033[00m\]'
+	black='\[\033[1;30m\]'
+	red='\[\033[1;31m\]'
+	green='\[\033[1;32m\]'
+	yellow='\[\033[1;33m\]'
+	blue='\[\033[1;34m\]'
+	violet='\[\033[1;35m\]'
+	cyan='\[\033[1;36m\]'
+	white='\[\033[1;37m\]'
+	checkmark='\342\234\223'
+	crossmark='\342\234\227'
 
-			# Check for unstaged changes.
-			if ! $(git diff-files --quiet --ignore-submodules --); then
-				s+='!';
-			fi;
+	PS1="\[\033]0;\u@\h: \w\a\]"  # set xterm title to user@host: dir
+	PS1+="${debian_chroot:+($debian_chroot)}"  # if set prefix with chroot
+	PS1+="$black\D{%F %T} "  # date
+	PS1+="$green\u@\h "  # user@hostname
+	PS1+="$blue\w$reset"  # directory
 
-			# Check for untracked files.
-			if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-				s+='?';
-			fi;
+	PS1+=' $(if [[ $? = 0 ]]; then printf "%s" "'$green$checkmark'" ; else printf "%s" "'$red$crossmark'" ; fi)'$reset
 
-			# Check for stashed files.
-			if $(git rev-parse --verify refs/stash &>/dev/null); then
-				s+='$';
-			fi;
+	# git prompt
+	if [ -f /usr/local/etc/bash_completion.d/git-prompt.sh ] ; then
+		GIT_PS1_SHOWDIRTYSTATE=1
+		GIT_PS1_SHOWSTASHSTATE=1
+		GIT_PS1_SHOWUNTRACKEDFILES=1
+		GIT_PS1_SHOWUPSTREAM="verbose"
+		GIT_PS1_DESCRIBE_STYLE="default"
+		GIT_PS1_SHOWCOLORHINTS=1
 
-		fi;
+		. /usr/local/etc/bash_completion.d/git-prompt.sh
+		PS1+='$(__git_ps1)'
 
-		# Get the short symbolic ref.
-		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
-		# Otherwise, just give up.
-		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-			git rev-parse --short HEAD 2> /dev/null || \
-			echo '(unknown)')";
+		# attempt to get coloring by using pc_mode and then restoring PS1
+		# gets pretty ugly and doesn't work as ${__git_ps1_branch_name} isn't evaluated
+		#PS1+='${GIT_PS1_PROMPT}'
+		##GIT_PS1_PROMPT=' (\[\e[32m\]${__git_ps1_branch_name}\[\e[0m\] \[\e[31m\]*\[\e[31m\]%\[\e[0m\] u+1)'
+		##GIT_PS1_PROMPT="${GIT_PS1_PROMPT//\\\[/}";
+		##GIT_PS1_PROMPT="${GIT_PS1_PROMPT//\\\]/}";
+		##GIT_PS1_PROMPT=$(echo -e "$GIT_PS1_PROMPT");
+		#PROMPT_COMMAND='PS1_BAK="$PS1"; __git_ps1 "" ""; GIT_PS1_PROMPT="$PS1"; GIT_PS1_PROMPT="${GIT_PS1_PROMPT//\\\[/}"; GIT_PS1_PROMPT="${GIT_PS1_PROMPT//\\\]/}"; GIT_PS1_PROMPT=$(echo -e "$GIT_PS1_PROMPT"); PS1="$PS1_BAK"'
+	fi
 
-		[ -n "${s}" ] && s=" [${s}]";
+	# change color dep. on return val
+	PS1+='\n$(if [[ $__retval = 0 ]]; then echo "'$blue'"; else echo "'$red'"; fi)\$'$reset' '
+	PROMPT_COMMAND='__retval=$?; '"$PROMPT_COMMAND"  # is otherwise reset to 0 by __git_ps1
 
-		echo -e "${1}${branchName}${blue}${s}";
-	else
-		return;
-	fi;
-}
+	#default:
+	#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$ \[\033[00m\]'
 
-if tput setaf 1 &> /dev/null; then
-	tput sgr0; # reset colors
-	bold=$(tput bold);
-	reset=$(tput sgr0);
-	# Solarized colors, taken from http://git.io/solarized-colors.
-	black=$(tput setaf 0);
-	blue=$(tput setaf 33);
-	cyan=$(tput setaf 37);
-	green=$(tput setaf 64);
-	orange=$(tput setaf 166);
-	purple=$(tput setaf 125);
-	red=$(tput setaf 124);
-	violet=$(tput setaf 61);
-	white=$(tput setaf 15);
-	yellow=$(tput setaf 136);
+	unset reset black red green yellow blue violet cyan white checkmark crossmark
 else
-	bold='';
-	reset="\e[0m";
-	black="\e[1;30m";
-	blue="\e[1;34m";
-	cyan="\e[1;36m";
-	green="\e[1;32m";
-	orange="\e[1;33m";
-	purple="\e[1;35m";
-	red="\e[1;31m";
-	violet="\e[1;35m";
-	white="\e[1;37m";
-	yellow="\e[1;33m";
-fi;
-
-# Highlight the user name when logged in as root.
-if [[ "${USER}" == "root" ]]; then
-	userStyle="${red}";
-else
-	userStyle="${orange}";
-fi;
-
-# Highlight the hostname when connected via SSH.
-if [[ "${SSH_TTY}" ]]; then
-	hostStyle="${bold}${red}";
-else
-	hostStyle="${yellow}";
-fi;
-
-# Set the terminal title to the current working directory.
-PS1="\[\033]0;\w\007\]";
-PS1+="\[${bold}\]\n"; # newline
-PS1+="\[${userStyle}\]\u"; # username
-PS1+="\[${white}\] at ";
-PS1+="\[${hostStyle}\]\h"; # host
-PS1+="\[${white}\] in ";
-PS1+="\[${green}\]\w"; # working directory
-PS1+="\$(prompt_git \"${white} on ${violet}\")"; # Git repository details
-PS1+="\n";
-PS1+="\[${white}\]\$ \[${reset}\]"; # `$` (and reset color)
-export PS1;
-
-PS2="\[${yellow}\]→ \[${reset}\]";
-export PS2;
+	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt
