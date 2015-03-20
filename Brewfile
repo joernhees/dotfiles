@@ -28,8 +28,8 @@ install wget --enable-iri
 
 # Install more recent versions of some OS X tools
 install vim --override-system-vi
-install homebrew/dupes/grep
-install homebrew/dupes/screen
+install grep
+install screen
 
 # Install some CTF tools; see https://github.com/ctfs/write-ups
 install nmap
