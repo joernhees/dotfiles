@@ -7,8 +7,6 @@ export HISTFILESIZE=262144;
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 export HISTCONTROL=ignoreboth;
-# Make some commands not show up in history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date";
 
 # Prefer US English and use UTF-8
 export LANG="en_US.UTF-8";
