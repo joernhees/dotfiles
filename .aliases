@@ -33,3 +33,6 @@ done
 # Make Grunt print stack traces by default
 command -v grunt > /dev/null && alias grunt="grunt --stack"
 
+# activate a virtual env as found by find_venv.sh
+alias venv='eval $(find_venv.sh)'
+
