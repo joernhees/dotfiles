@@ -5,8 +5,11 @@
 	remotes = remote -v
 
 	# Remove branches that have already been merged with master
-	# a.k.a. ‘delete merged’
-	# dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+	delete-merged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+	# list commits for rebase -i with log: e.g. git rebase -i upstream == git log-rebase upstream..HEAD
+	# especially useful if you want to exclude several feature branches: git log-rebase HEAD ^feature1 ^feature2
+	rebase-log = log --reverse --no-merges --oneline --pretty=format:'%C(bold yellow)pick %C(bold cyan)%h %C(magenta)%s %C(green)(%cr) %C(bold blue)<%an> %C(red)%d%Creset%Creset'
 
 	last = log -1 HEAD
 	serve = daemon --reuseaddr --base-path=. --export-all --verbose
