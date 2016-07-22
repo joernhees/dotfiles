@@ -20,3 +20,6 @@ Thumbs.db
 # ignore some very specific tex tmp files
 *.synctex.gz
 
+# ignore pycharm folder
+.idea/
+
