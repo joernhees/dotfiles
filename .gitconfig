@@ -15,8 +15,8 @@
 	serve = daemon --reuseaddr --base-path=. --export-all --verbose
 	stash-unapply = !git stash show -p | git apply -R
 	graphs = log --graph --oneline --all --decorate
-	graph = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
-	graphc = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
+	graph = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
+	graphc = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
 	logf = log --follow
 	delete-remote-branch = push origin --delete
 	pu = !"git fetch origin -v; git fetch upstream -v; git merge --ff-only upstream/master"
