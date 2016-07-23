@@ -73,7 +73,7 @@
 [help]
 
 	# Automatically correct and execute mistyped commands
-	autocorrect = 1
+	autocorrect = 20
 
 
 [merge]
