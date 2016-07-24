@@ -34,6 +34,11 @@ elif [ -x /usr/bin/lesspipe ] ; then
 fi
 
 
+# support autocorrect "fuck" command
+if which thefuck > /dev/null ; then
+	eval "$(thefuck --alias)"
+fi
+
 
 # Add tab completion for many Bash commands
 if which brew > /dev/null && [ -f "$(brew --prefix)/etc/bash_completion" ]; then
