@@ -30,6 +30,11 @@ if [[ -f '/Users/joern/google-cloud-sdk/completion.bash.inc' ]] ; then
 fi
 
 
+# include user's .local/bin if exists (pip install --user ...)
+if [[ -d "$HOME/.local/bin" ]] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
 # set PATH so it includes user's private bin if it exists
 if [[ -d "$HOME/bin" ]] ; then
     PATH="$HOME/bin:$PATH"
