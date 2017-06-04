@@ -17,6 +17,7 @@
 	graphs = log --graph --oneline --all --decorate
 	graph = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
 	graphc = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
+	graphstash = !"git graph $(git reflog show --format="%h" stash)"
 	logf = log --follow
 	delete-remote-branch = push origin --delete
 	pu = !"git fetch origin -v; git fetch upstream -v; git merge --ff-only upstream/master"
@@ -24,6 +25,7 @@
 	pull-all-repos = !"for r in */ ; do pushd \"$r\" ; git pull ; popd ; done"
 	unreleased-changes = !"LTAG=$(git describe --tags --abbrev=0) && git log $LTAG.."
 
+	wdiff = diff --color-words=.
 
 [apply]
 	# Detect whitespace errors when applying a patch
@@ -90,3 +92,6 @@
 	# `git config --global push.default simple`. See http://git.io/mMah-w.
 	default = simple
 
+
+[fetch]
+	prune = true
