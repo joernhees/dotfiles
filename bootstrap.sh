@@ -16,9 +16,9 @@ function doIt() {
 	#	--exclude "README.md" --exclude "LICENSE-MIT.txt" -avh --no-perms . ~;
 	cd ~
 	# link .files except .os, .DS_Store
-	find "$path" -type f -depth 1 -name '.*' -not \( -name '.osx' -or -name '.DS_Store' \) -exec ln -si {} \;
+	find "$path" -maxdepth 1 -type f -name '.*' -not \( -name '.osx' -or -name '.DS_Store' \) -exec ln -si {} \;
 	# link .directories
-	find "$path" -type d -depth 1 -name '.*' -not -name '.git' -exec ln -sFi {} \;
+	find "$path" -maxdepth 1 -type d -name '.*' -not -name '.git' -exec ln -sFi {} \;
 	# link bin symlinks
 	rsync -anvh --no-perms "$path/bin" ./
 	read -p "Do you want to replace these symlinks in ~/bin? (y/n) "
