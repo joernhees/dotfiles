@@ -1,6 +1,6 @@
 
 # prefer homebrew paths in case it exists:
-if which -s brew ; then
+if which brew > /dev/null ; then
     PATH="$(brew --prefix)/bin:$(brew --prefix)/sbin:$PATH"
 fi
 

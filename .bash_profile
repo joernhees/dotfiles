@@ -55,3 +55,6 @@ complete -W "NSGlobalDomain" defaults;
 
 # travis auto-completion
 [[ -f ~/.travis/travis.sh ]] && source ~/.travis/travis.sh
+
+# make first bash prompt happy ("green") even if parts weren't found
+true
