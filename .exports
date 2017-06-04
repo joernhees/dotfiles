@@ -4,6 +4,7 @@ export EDITOR='vim';
 # Larger bash history (allow 32³ entries; default is 500)
 export HISTSIZE=32768;
 export HISTFILESIZE=262144;
+export HISTTIMEFORMAT='[%F %T] '
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 export HISTCONTROL=ignoreboth;
