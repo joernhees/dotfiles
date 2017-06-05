@@ -1,3 +1,7 @@
+# only run once, even if external weirdness calls us multiple times
+[[ $BASH_PROFILE_IMPORT_GUARD = true ]] && return
+export BASH_PROFILE_IMPORT_GUARD=true
+
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
@@ -37,13 +41,13 @@ fi
 
 
 # support autocorrect "fuck" command
-if which thefuck > /dev/null ; then
+if which thefuck &> /dev/null ; then
 	eval "$(thefuck --alias)"
 fi
 
 
 # Add tab completion for many Bash commands
-if which brew > /dev/null && [ -f "$(brew --prefix)/etc/bash_completion" ]; then
+if which brew &> /dev/null && [ -f "$(brew --prefix)/etc/bash_completion" ]; then
 	source "$(brew --prefix)/etc/bash_completion";
 elif [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion;

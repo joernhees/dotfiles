@@ -1,6 +1,6 @@
 
 # prefer homebrew paths in case it exists:
-if which brew > /dev/null ; then
+if which brew &> /dev/null ; then
     PATH="$(brew --prefix)/bin:$(brew --prefix)/sbin:$PATH"
 fi
 
@@ -9,12 +9,12 @@ fi
 export PYENV_ROOT=/usr/local/var/pyenv
 
 # pyenv: enable shims and autocompletion:
-if which pyenv > /dev/null; then
+if which pyenv &> /dev/null; then
     eval "$(pyenv init -)"
 fi
 
 # pyenv-virtualenv autocompletion
-if which pyenv-virtualenv-init > /dev/null; then
+if which pyenv-virtualenv-init &> /dev/null; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
