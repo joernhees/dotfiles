@@ -18,6 +18,9 @@ shopt -s histappend;
 # Append to history after each command
 #export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
+echo -n "history: "
+wc -l "$HISTFILE"
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
