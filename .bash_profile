@@ -49,9 +49,9 @@ fi
 
 
 # support autocorrect "fuck" command
-if which thefuck &> /dev/null ; then
-	eval "$(thefuck --alias)"
-fi
+#if which thefuck &> /dev/null ; then
+#	eval "$(thefuck --alias)"
+#fi
 
 
 # Add tab completion for many Bash commands
