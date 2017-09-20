@@ -1,6 +1,11 @@
-# only run once, even if external weirdness calls us multiple times
-[[ $BASH_PROFILE_IMPORT_GUARD = true ]] && return
-export BASH_PROFILE_IMPORT_GUARD=true
+# actually seems problematic for tmux
+# # only run once, even if external weirdness calls us multiple times
+# if [[ $BASH_PROFILE_IMPORT_GUARD = true ]] ; then
+# 	echo "skipping ~/.bash_profile due to import guard"
+# 	return
+# fi
+# export BASH_PROFILE_IMPORT_GUARD=true
+echo "executing ~/.bash_profile"
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.

@@ -1,4 +1,8 @@
 
+if [[ "$PATH" = *:$HOME/PATHGUARD ]] ; then
+    return
+fi
+
 # prefer homebrew paths in case it exists:
 if which brew &> /dev/null ; then
     PATH="$(brew --prefix)/bin:$(brew --prefix)/sbin:$PATH"
@@ -40,5 +44,8 @@ if [[ -d "$HOME/bin" ]] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+
+# set PATH guard so we don't run this again
+PATH="$PATH:$HOME/PATHGUARD"
 
 export PATH;
