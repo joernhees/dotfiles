@@ -10,8 +10,10 @@ echo "executing ~/.bash_profile"
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
+for file in ~/.{exports,path,bash_prompt,aliases,functions,extra}; do
+	# echo "$(($(gdate +%s%N)/1000000)) executing $file"  # debug startup time
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+	# echo "$(($(gdate +%s%N)/1000000)) done with $file"  # debug startup time
 done;
 unset file;
 
@@ -19,9 +21,8 @@ unset file;
 shopt -s nocaseglob;
 
 # Append to the Bash history file, rather than overwriting it
+# redundant in .exports to reduce prob to flush history on error in any script
 shopt -s histappend;
-# Append to history after each command
-#export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 echo -n "history: "
 wc -l "$HISTFILE"
@@ -67,6 +68,8 @@ complete -W "NSGlobalDomain" defaults;
 
 # travis auto-completion
 [[ -f ~/.travis/travis.sh ]] && source ~/.travis/travis.sh
+
+# echo "$(($(gdate +%s%N)/1000000)) done with .bash_profile"
 
 # make first bash prompt happy ("green") even if parts weren't found
 true

@@ -9,6 +9,12 @@ export HISTTIMEFORMAT='[%F %T] '
 # ... or force ignoredups and ignorespace
 export HISTCONTROL=ignoreboth;
 
+# Append to the Bash history file, rather than overwriting it
+shopt -s histappend;
+# Append to history after each command
+#export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
 export PYTHONIOENCODING='UTF-8';
 
