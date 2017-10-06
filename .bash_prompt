@@ -7,7 +7,7 @@
 
 
 # set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+if [[ -z "$debian_chroot" ]] && [[ -r /etc/debian_chroot ]]; then
 	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
@@ -27,7 +27,7 @@ case "$TERM" in
 esac
 
 
-if [ "$color_prompt" = yes ]; then
+if [[ "$color_prompt" = yes ]]; then
 	# \h hostname
 	# \u user
 	# \w working dir (home == ~)
@@ -63,7 +63,7 @@ if [ "$color_prompt" = yes ]; then
 	PS1+=' $(if [[ $? = 0 ]]; then printf "%s" "'$green$checkmark'" ; else printf "%s" "'$red$crossmark'" ; fi)'$reset
 
 	# git prompt
-	if [ -f /usr/local/etc/bash_completion.d/git-prompt.sh ] ; then
+	if [[ -f /usr/local/etc/bash_completion.d/git-prompt.sh ]] ; then
 		GIT_PS1_SHOWDIRTYSTATE=1
 		GIT_PS1_SHOWSTASHSTATE=1
 		GIT_PS1_SHOWUNTRACKEDFILES=1

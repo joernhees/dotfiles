@@ -12,7 +12,7 @@ echo "executing ~/.bash_profile"
 # * ~/.extra can be used for other settings you don’t want to commit.
 for file in ~/.{exports,path,bash_prompt,aliases,functions,extra}; do
 	# echo "$(($(gdate +%s%N)/1000000)) executing $file"  # debug startup time
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+	[[ -r "$file" ]] && [[ -f "$file" ]] && source "$file";
 	# echo "$(($(gdate +%s%N)/1000000)) done with $file"  # debug startup time
 done;
 unset file;
@@ -42,9 +42,9 @@ for option in autocd globstar; do
 done;
 
 # make less more friendly for non-text input files, see lesspipe(1)
-if [ -x /usr/local/bin/lesspipe.sh ] ; then
+if [[ -x /usr/local/bin/lesspipe.sh ]] ; then
 	eval "$(/usr/local/bin/lesspipe.sh)"
-elif [ -x /usr/bin/lesspipe ] ; then
+elif [[ -x /usr/bin/lesspipe ]] ; then
 	eval "$(/usr/bin/lesspipe)"
 fi
 
@@ -56,9 +56,9 @@ fi
 
 
 # Add tab completion for many Bash commands
-if which brew &> /dev/null && [ -f "$(brew --prefix)/etc/bash_completion" ]; then
+if which brew &> /dev/null && [[ -f "$(brew --prefix)/etc/bash_completion" ]]; then
 	source "$(brew --prefix)/etc/bash_completion";
-elif [ -f /etc/bash_completion ]; then
+elif [[ -f /etc/bash_completion ]]; then
 	source /etc/bash_completion;
 fi;
 
